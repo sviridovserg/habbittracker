@@ -1,0 +1,16 @@
+<md-data-table layout-fill>
+    <thead>
+        <tr>
+            <th class="md-text-cell" style="width: 100%">Habbit</th>
+            <th *ngFor="let day of weekDays">{{day}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let progress of habbitsProgress">
+            <td class="md-text-cell">{{ progress.habbitName }}</td>
+            <td *ngFor="let day of progress.weekStat">
+                <app-day-state [isCompleted]="day.isCompleted"></app-day-state>
+            </td>
+        </tr>
+    </tbody>
+</md-data-table>

@@ -1,0 +1,12 @@
+.icon-small md-icon, .icon-small {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.completed {
+    color: #388E3C;
+}
+
+.not-completed {
+    color: #D32F2F;
+}
