@@ -1,0 +1,110 @@
+.select-wrapper {
+    position: relative;
+}
+
+.wrapper {
+    margin: 16px 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    width: 100%;
+    display: flex;
+}
+
+.selected-item-wrapper {
+    position: relative;
+    flex: 1 100%;
+}
+
+.wrapper .arrow {
+    flex: auto;
+}
+
+.underline {
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    margin-top: 4px;
+    border-top-width: 1px;
+    border-top-style: solid;
+}
+
+.selected-item {
+    display: inline-table;
+    flex-flow: column;
+    vertical-align: bottom;
+    width: 100%;
+}
+
+.selected-item .placeholder {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    text-align: left;
+    font-size: 100%;
+    pointer-events: none;
+    z-index: 1;
+    width: 100%;
+    /*display: none;*/
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    transform: translateY(0);
+    transform-origin: bottom left;
+    transition: transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1), scale 400ms cubic-bezier(0.25, 0.8, 0.25, 1), color 400ms cubic-bezier(0.25, 0.8, 0.25, 1), width 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.selected-item .placeholder.focused {
+    display: block;
+    padding-bottom: 5px;
+    /*transform: translateY(-100%) scale(0.75);*/
+    /*width: 133.33333%;*/
+}
+
+.selected-item .selected-item-content {
+    width: 100%;
+    text-align: left;
+}
+
+.app-scroll-container {
+    position: absolute;
+    background-color: transparent;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.options-container {
+    position: fixed;
+    background: #ffffff; 
+    display: none;
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
+
+
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
+    max-height: 256px;
+    min-height: 48px;
+    overflow-y: hidden;
+
+    /*-webkit-transform-origin: left top;
+    transform-origin: left top;
+    -webkit-transform: scale(1);
+    transform: scale(1);*/
+}
+
+.options-container.open {
+    display: flex;
+    flex-direction: column;
+
+    opacity: 1;
+}

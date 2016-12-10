@@ -20,19 +20,24 @@
         '@angular2-material/core': 'npm:@angular2-material/core/core.umd.js',
         'ng2-material': 'npm:ng2-material',
         'moment': 'npm:moment',
-        'rxjs': 'npm:rxjs'
+        'rxjs': 'npm:rxjs',
+        'lodash': 'npm:lodash'
     };
 
     // packages tells the System loader how to load when no filename and/or no extension
     var packages = {
         app: { main: 'main.js',  defaultExtension: 'js' },
-        rxjs: { defaultExtension: 'js' },
+        rxjs: { defaultExtension: 'js', main: 'rx.js' },
         'ng2-material': {//this needs to be nested in packages
             main: 'index.js',
             defaultExtension: 'js'
         },
         moment: {
             main: 'moment.js',
+            defaultExtension: 'js'
+        },
+        lodash: {
+            main:  'lodash.js',
             defaultExtension: 'js'
         }
     };

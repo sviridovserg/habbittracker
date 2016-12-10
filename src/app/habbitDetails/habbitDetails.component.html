@@ -1,8 +1,17 @@
 <md-dialog #dialog (onClose)="close($event)">
-     <md-dialog-title>{{title}}</md-dialog-title>
-      <div>
-          My Diaog
-          <input />
-      </div>
-      <md-dialog-actions ok="Save" cancel="Cancel"></md-dialog-actions>
+     <md-dialog-title>{{isCreate ? "Create Habbit" : "Edit Habbit"}}</md-dialog-title>
+     <div>
+        <div>
+            <md-input placeholder="Title" class="full-width"></md-input>
+        </div>
+        <div>
+            <md-input placeholder="Description" class="full-width"></md-input>
+        </div>
+        <div>
+            <app-select class="full-width" placeholder="Placeholder" [(ngModel)]="selectedDay">
+                <app-option *ngFor="let d of days" [value]="d">{{d.label}}</app-option>
+            </app-select>
+        </div>
+    </div>
+    <md-dialog-actions ok="Save" cancel="Cancel"></md-dialog-actions>
 </md-dialog>

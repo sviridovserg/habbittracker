@@ -1,0 +1,22 @@
+<div class="select-wrapper" #host>
+    <button class="wrapper" (click)="openDropDown()" >
+        <div class="selected-item-wrapper">
+            <div class="selected-item">
+                <label class="placeholder" [class.focused]="isOpen || internalValue">{{placeholder}}</label>
+                
+                <div class="selected-item-content" [innerHTML]="htmlSelectedElement">
+                </div>
+            </div>
+            <div class="underline"></div>
+        </div>
+        <md-icon class="icon-small arrow">arrow_drop_down</md-icon>
+    </button>
+    <div class="options-container" 
+        [style.min-width.px]="host.offsetWidth" 
+        [style.top.px]="dropDownTop" 
+        [style.left.px]="dropDownLeft"
+        [style.z-index]="dropDownZIndex" 
+        [class.open]="isOpen"> 
+        <ng-content></ng-content>
+    </div>
+</div>

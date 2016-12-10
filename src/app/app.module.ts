@@ -9,6 +9,8 @@ import { MdIconModule, MdIconRegistry } from "@angular2-material/icon";
 import { MdButtonModule } from "@angular2-material/button";
 import { MdCoreModule } from "@angular2-material/core"
 
+import { MdInputModule } from "@angular/material" 
+
 import { Ng2MaterialModule, MATERIAL_BROWSER_PROVIDERS } from "ng2-material";
 
 import { AppComponent } from './app.component';
@@ -18,13 +20,18 @@ import { AboutComponent } from './about/about.component';
 import { DayStateComponent } from './dayState/dayState.component';
 import { HabbitDetailsComponent } from './habbitDetails/habbitDetails.component';
 
+import { SelectComponent } from './select/select.component';
+import { OptionComponent } from './select/option.component';
+
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
         AboutComponent,
         DayStateComponent,
-        HabbitDetailsComponent
+        HabbitDetailsComponent,
+        SelectComponent,
+        OptionComponent
     ],
     imports: [
         BrowserModule,
@@ -36,6 +43,7 @@ import { HabbitDetailsComponent } from './habbitDetails/habbitDetails.component'
         MdIconModule,
         MdCoreModule,
         MdButtonModule,
+        MdInputModule,
         Ng2MaterialModule
     ],
     bootstrap: [ AppComponent ],
