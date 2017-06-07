@@ -23,6 +23,8 @@ import { HabbitDetailsComponent } from './habbitDetails/habbitDetails.component'
 import { SelectComponent } from './select/select.component';
 import { OptionComponent } from './select/option.component';
 
+import { SelectService } from "./select/select.service";
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -47,7 +49,7 @@ import { OptionComponent } from './select/option.component';
         Ng2MaterialModule
     ],
     bootstrap: [ AppComponent ],
-    providers: [ MdIconRegistry ].concat(MATERIAL_BROWSER_PROVIDERS)
+    providers: [ MdIconRegistry, SelectService ].concat(MATERIAL_BROWSER_PROVIDERS)
 })
 
 export class AppModule {

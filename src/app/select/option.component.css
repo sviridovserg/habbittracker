@@ -15,5 +15,10 @@
 }
 
 .option-wrapper.selected {
+    color: #009688;
+}
+
+.option-wrapper.hover
+ {
     background: #eeeeee;
 }

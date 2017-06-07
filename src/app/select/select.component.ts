@@ -1,8 +1,9 @@
-import { Component, Input, HostListener, ElementRef, ViewChild, ContentChildren, QueryList,forwardRef } from "@angular/core"
+import { Component, Input, HostListener, ElementRef, ViewChild, ContentChildren, QueryList,forwardRef  } from "@angular/core"
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Observable } from "rxjs"
 import * as _ from "lodash";
 import { OptionComponent } from "./option.component";
+import {SelectService } from "./select.service";
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -30,8 +31,17 @@ export class  SelectComponent implements ControlValueAccessor  {
 
     private internalSelectedItemIndex: number = 0;
     private htmlSelectedElement: string;
-    private internalValue: any
-    constructor() {
+    private internalValue: any = null;
+    constructor(private selectService: SelectService) {
+        this.selectService.optionSelected$.subscribe(opt => {
+            this.internalSelectedItemIndex = this.getOptionIndex(opt);
+            this.confirmSelection();
+        });
+        this.selectService.optionMouseEnter$.subscribe(opt => {
+            this.getSelectedOptionByIndex(this.internalSelectedItemIndex).toggleSelect(false);
+            this.internalSelectedItemIndex = this.getOptionIndex(opt);
+            opt.toggleSelect(true);
+        });
     }
     openDropDown() {
         this.width = this.host.nativeElement.offsetWidth;
@@ -45,7 +55,7 @@ export class  SelectComponent implements ControlValueAccessor  {
         this.dropDownZIndex = highestZIndex + 1;
         
         this.isOpen = !this.isOpen
-        this.getSelectedOption(this.internalSelectedItemIndex).toggleSelect(true)
+        this.getSelectedOptionByIndex(this.internalSelectedItemIndex).toggleSelect(true)
     }
     private closeDropDown() {
         this.isOpen = !this.isOpen;
@@ -83,34 +93,24 @@ export class  SelectComponent implements ControlValueAccessor  {
         }
         this.cancelSelection();
     }
-    @HostListener('onselected', ['$event']) 
-    optionSelected(option: OptionComponent) {
-        let index = 0;
-        this.options.find((item, ind) => {
-            index = ind;
-            return item === option;
-        });
-        this.internalSelectedItemIndex = index;
-        this.confirmSelection();
-    }
     private selectNext() {
         if (this.internalSelectedItemIndex === this.options.length - 1) {
             return;
         }
-        this.getSelectedOption(this.internalSelectedItemIndex).toggleSelect(false);
-        this.getSelectedOption(++this.internalSelectedItemIndex).toggleSelect(true);
+        this.getSelectedOptionByIndex(this.internalSelectedItemIndex).toggleSelect(false);
+        this.getSelectedOptionByIndex(++this.internalSelectedItemIndex).toggleSelect(true);
     }
     private selectPrev() {
         if (this.internalSelectedItemIndex === 0) {
             return;
         }
-        this.getSelectedOption(this.internalSelectedItemIndex).toggleSelect(false);
-        this.getSelectedOption(--this.internalSelectedItemIndex).toggleSelect(true);
+        this.getSelectedOptionByIndex(this.internalSelectedItemIndex).toggleSelect(false);
+        this.getSelectedOptionByIndex(--this.internalSelectedItemIndex).toggleSelect(true);
     }
     private confirmSelection() {
-        let selectedNode = this.getSelectedOption(this.internalSelectedItemIndex);
+        let selectedNode = this.getSelectedOptionByIndex(this.internalSelectedItemIndex);
         if (selectedNode.value !== this.internalValue) {
-            this.internalValue = selectedNode.value;
+            this.valueSelected(selectedNode.value);
             this.htmlSelectedElement = selectedNode.getContent().innerHTML;
             if (this.onChangeCallback) {
                 this.onChangeCallback(selectedNode.value);
@@ -121,12 +121,36 @@ export class  SelectComponent implements ControlValueAccessor  {
     private cancelSelection() {
         this.closeDropDown();
     }
-    private getSelectedOption(index: Number): OptionComponent {
+    private getSelectedOptionByIndex(index: Number): OptionComponent {
         return this.options.find((item, ind) => {
             return ind === index;
         });
     }
-    
+    private getSelectedOptionByValue(value: any): OptionComponent {
+        return this.options.find((item, ind) => {
+            return item.value === value;
+        });
+    }
+    private getOptionIndex(opt: OptionComponent) {
+        let index = -1;
+        this.options.find((item, ind) => {
+            if (item === opt) {
+                index = ind;
+            }
+            return item === opt;
+        });
+        return index;
+    }
+    private valueSelected(newValue: any) {
+        if (!this.internalValue && !newValue) {
+            return;
+        }
+        if (this.internalValue) {
+            this.getSelectedOptionByValue(this.internalValue).valueSelect(false);
+        }
+        this.internalValue = newValue;
+        this.getSelectedOptionByValue(this.internalValue).valueSelect(true);
+    }
     onChangeCallback: (_: any) => {
 
     }
@@ -136,7 +160,7 @@ export class  SelectComponent implements ControlValueAccessor  {
     //From ControlValueAccessor interface
     writeValue(value: any) {
         if (value !== this.internalValue) {
-            this.internalValue = value;
+            this.valueSelected(value);
         }
     }
     //From ControlValueAccessor interface
